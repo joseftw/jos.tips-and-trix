@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +25,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\JOS.TipsAndTrix\JOS.TipsAndTrix.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="03Deserialization\Cars.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="03Deserialization\CarsWithoutRequiredProperties.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 
 </Project>
