@@ -405,3 +405,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Stu
 
 .idea/
+.DS_Store
+.idea

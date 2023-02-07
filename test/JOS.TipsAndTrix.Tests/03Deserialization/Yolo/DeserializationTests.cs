@@ -25,7 +25,7 @@ public class DeserializationTests
         await using var json = _embeddedResourceQuery.Read<EmbeddedResourceQuery>("_03Deserialization.Cars.json");
         if (json is null)
         {
-            throw new NullException(json);
+            throw new Exception("Failed to read JSON from _03Deserialization.Cars.json");
         }
 
         var result = await JsonSerializer.DeserializeAsync<List<CarDto>>(json, CarsJsonSerializerOptions.Options);
