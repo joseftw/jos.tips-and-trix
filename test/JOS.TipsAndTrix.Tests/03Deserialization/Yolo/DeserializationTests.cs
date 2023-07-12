@@ -2,33 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 using JOS.TipsAndTrix._03Deserialization.Yolo;
 using Shouldly;
 using Xunit;
-using Xunit.Sdk;
 
 namespace JOS.TipsAndTrix.Tests._03Deserialization.Yolo;
 
 public class DeserializationTests
 {
-    private readonly EmbeddedResourceQuery _embeddedResourceQuery;
-
-    public DeserializationTests()
-    {
-        _embeddedResourceQuery = new EmbeddedResourceQuery();
-    }
-    
     [Fact]
-    public async Task CanDeserializeValidCarsJson()
+    public void CanDeserializeValidCarsJson()
     {
-        await using var json = _embeddedResourceQuery.Read<EmbeddedResourceQuery>("_03Deserialization.Cars.json");
-        if (json is null)
-        {
-            throw new Exception("Failed to read JSON from _03Deserialization.Cars.json");
-        }
-
-        var result = await JsonSerializer.DeserializeAsync<List<CarDto>>(json, CarsJsonSerializerOptions.Options);
+        var result = JsonSerializer.Deserialize<List<CarDto>>(CarsJson.Valid, CarsJsonSerializerOptions.Options);
 
         result.ShouldNotBeNull();
         result.Count.ShouldBe(3);
@@ -39,7 +24,7 @@ public class DeserializationTests
         result[0].CustomParts[0].PartNumber.ShouldBe("ABC123");
         result[0].CustomParts[0].Price.ShouldBe(1999.99M);
         result[0].CustomParts[0].Manufactured.ShouldBe(DateOnly.Parse("2021-01-12"));
-        
+
         result[1].Brand.ShouldBe("Ferrari");
         result[1].Model.ShouldBe("F50");
         result[1].Horsepower.ShouldBe(512u);
@@ -47,7 +32,7 @@ public class DeserializationTests
         result[1].CustomParts[0].PartNumber.ShouldBe("DEF123");
         result[1].CustomParts[0].Price.ShouldBe(3050.99M);
         result[1].CustomParts[0].Manufactured.ShouldBe(DateOnly.Parse("2021-02-03"));
-        
+
         result[2].Brand.ShouldBe("Ferrari");
         result[2].Model.ShouldBe("488 Spider");
         result[2].Horsepower.ShouldBe(661u);
@@ -58,12 +43,10 @@ public class DeserializationTests
     }
 
     [Fact]
-    public async Task ShouldThrowArgumentNullExceptionWhenTryingToConsumeCustomPartsWhenCustomPartsIsMissingFromJson()
+    public void ShouldThrowArgumentNullExceptionWhenTryingToConsumeCustomPartsWhenCustomPartsIsMissingFromJson()
     {
-        await using var json =
-            _embeddedResourceQuery.Read<EmbeddedResourceQuery>("_03Deserialization.CarsWithoutRequiredProperties.json");
-
-        var result = await JsonSerializer.DeserializeAsync<List<CarDto>>(json!, CarsJsonSerializerOptions.Options);
+        var result = JsonSerializer.Deserialize<List<CarDto>>(
+            CarsJson.WithoutRequiredProperties, CarsJsonSerializerOptions.Options);
 
         var exception = Should.Throw<ArgumentNullException>(() => result!.First().CustomParts.First());
         exception.Message.ShouldBe("Value cannot be null. (Parameter 'source')");

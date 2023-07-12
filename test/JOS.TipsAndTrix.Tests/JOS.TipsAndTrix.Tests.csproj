@@ -24,14 +24,5 @@
     <ProjectReference Include="..\..\src\JOS.TipsAndTrix\JOS.TipsAndTrix.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="03Deserialization\Cars.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="03Deserialization\CarsWithoutRequiredProperties.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
 
 </Project>
